@@ -9,9 +9,6 @@ import { Provider } from 'react-redux';
 import api from './api';
 import Header from './header';
 import UserList from './user_list';
-import TaskList from './task_list';
-import NewTask from './new_task';
-import EditTask from './edit_task';
 
 export default function root_init(node, store) {
   let tasks = window.tasks;
@@ -26,7 +23,7 @@ export default function root_init(node, store) {
 class Root extends React.Component {
   constructor(props) {
     super(props);
-
+    api.fetch_session();
     api.fetch_users();
     api.fetch_tasks();
   }
@@ -41,18 +38,9 @@ class Root extends React.Component {
               <Route path="/users" exact={true} render={() =>
                 <UserList />
               } />
-              <Route path="/tasks" exact={true} render={() =>
-                  <TaskList />
-              } />
-              <Route path="/tasks/new" exact={true} render={() =>
-                  <NewTask />
-              } />
-              <Route path="/tasks/edit/:id" exact={true} render={(props) =>
-                  <EditTask id={props.match.params.id}/>
-              } />
-
             </div>
             <div className="col-4">
+
             </div>
           </div>
         </div>

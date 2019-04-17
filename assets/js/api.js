@@ -23,15 +23,32 @@ class TheServer {
   }
 
   fetch_users() {
-    this.fetch_path(
-      "/api/v1/users",
+    this.fetch_path("/api/v1/users",
       (resp) => {
         store.dispatch({
-          type: 'USER_LIST',
+          type: 'GET_USER_LIST',
           data: resp.data,
         });
       }
     );
+  }
+
+  delete_task(id) {
+      $.ajax("/api/v1/tasks/" + id, {
+          method: "DELETE",
+          error: (resp) => {
+              alert("Error deleting task " + id);
+          }
+      });
+  }
+
+  edit_task(id) {
+    $.ajax("/api/v1/tasks/" + id, {
+        method: "DELETE",
+        error: (resp) => {
+            alert("Error deleting task " + id);
+        }
+    });
   }
 
   fetch_tasks() {
@@ -49,16 +66,17 @@ class TheServer {
     this.send_post(
       "/api/v1/sessions",
       {email, password},
-      {},
       (resp) => {
         store.dispatch({
           type: 'NEW_SESSION',
           data: resp.data,
         });
+      },
+      () => {
+          alert("Unable to login. Try again.")
       }
     );
   }
-
 }
 
 export default new TheServer();
